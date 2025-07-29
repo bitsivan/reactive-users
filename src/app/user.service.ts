@@ -1,34 +1,32 @@
 import { Injectable } from '@angular/core';
 import { User } from './user';
 import { Subject } from 'rxjs';
+//test
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
+  private users: User[] = [];
+  private user$ = new Subject<User[]>();
+  constructor() {}
 
-  private users: User[]=[];
-  private user$=new Subject<User[]>();
-  constructor() { }
-
-  addUser(user: User){
+  addUser(user: User) {
     this.users.push(user);
     this.user$.next(this.users);
-    setInterval(()=>{
+    setInterval(() => {
       this.users.push(user);
       this.user$.next(this.users);
-    },1000);
-
+    }, 1000);
 
     console.log(this.users);
   }
 
-  getAll(){
+  getAll() {
     return this.user$.asObservable();
   }
 
-  finishRegister(){
+  finishRegister() {
     this.user$.complete();
   }
-
 }
